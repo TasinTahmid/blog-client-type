@@ -1,4 +1,4 @@
-import { Blog } from "./dataTypes";
+import { Blog, BlogFormData } from "./dataTypes";
 
 export interface BlogContainerProps {
     isUserBlogList?: boolean;
@@ -7,18 +7,18 @@ export interface BlogContainerProps {
 
 export interface BlogCardProps {
     blog: Blog;
-    toggleEditBlog: (blog: Blog | string, blogContent?: string | undefined) => void;
+    toggleEditBlog: (blog: BlogFormData) => void;
     toggleProfileDetails?: () => void;
     isUserBlogList?: boolean;
 }
 
 export interface BlogFormProps {
-    isCreateBlog: boolean;
-    blog: Blog | null;
-    handleClick: () => void;
-    toggleEditBlog: (blog: Blog | string, blogContent?: string | undefined) => void;
-    toggleProfileDetails: (() => void) | undefined;
-    isUserBlogList: boolean | undefined;
+    isCreateBlog?: boolean;
+    blog: BlogFormData | null;
+    handleClick?: () => void;
+    toggleEditBlog?: (blog: BlogFormData) => void;
+    toggleProfileDetails?: (() => void) | undefined;
+    isUserBlogList?: boolean | undefined;
     singleBlog?: boolean;
 }
 
@@ -29,6 +29,12 @@ export interface PaginationProps {
 export interface CreateBlogInputButtonProps {
     handleClick: () => void;
 }
+
 export interface PopupConfirmationProps {
     togglePopup: () => void;
+}
+
+export interface SingleBlogProps {
+    blog: Blog;
+    isUserBlogList: boolean;
 }

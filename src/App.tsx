@@ -5,7 +5,7 @@ import HomePage from "./pages/Home";
 import Profile from "./pages/Profile";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
-// import BlogDetails from "./pages/BlogDetails";
+import BlogDetails from "./pages/BlogDetails";
 import ProfileSettings from "./pages/ProfileSettings";
 import PasswordUpdateForm from "./components/PasswordUpdateForm";
 import DeleteAccount from "./components/DeleteAccount";
@@ -23,7 +23,7 @@ function App() {
                         <Route path="update-password" element={<PasswordUpdateForm />} />
                         <Route path="delete-account" element={<DeleteAccount />} />
                     </Route>
-                    {/* <Route path="/blogs/:id" element={<BlogDetails />} /> */}
+                    <Route path="/blogs/:id" element={<BlogDetails />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>

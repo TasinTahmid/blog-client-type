@@ -27,6 +27,7 @@ export interface Blog {
 }
 
 export interface BlogFormData {
+    id?: string;
     title: string;
     blogContent: string;
 }

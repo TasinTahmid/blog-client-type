@@ -46,7 +46,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
             });
 
             setTimeout(() => {
-                handleClick();
+                handleClick?.();
             }, 1200);
         } catch (error) {
             const blogCreateError = error as ApiError;
@@ -67,7 +67,11 @@ const BlogForm: React.FC<BlogFormProps> = ({
             });
 
             setTimeout(() => {
-                toggleEditBlog(response.title, response.blogContent);
+                const blogToEdit: BlogFormData = {
+                    title: response.title,
+                    blogContent: response.blogContent,
+                };
+                toggleEditBlog?.(blogToEdit);
             }, 1200);
         } catch (error) {
             const blogCreateError = error as ApiError;
@@ -89,11 +93,15 @@ const BlogForm: React.FC<BlogFormProps> = ({
         }
 
         if (isCreateBlog) {
-            handleClick();
+            handleClick?.();
             return;
         }
 
-        toggleEditBlog(title, blogContent);
+        const blogToEdit: BlogFormData = {
+            title,
+            blogContent,
+        };
+        toggleEditBlog?.(blogToEdit);
         return;
     };
     return (

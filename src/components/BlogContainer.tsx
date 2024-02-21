@@ -6,11 +6,11 @@ import BlogForm from "./BlogForm";
 import Paginate from "./Pagination";
 import { BlogContainerProps } from "../types/componentTypes";
 import { RootState } from "../states/store";
-import { Blog } from "../types/dataTypes";
+import { Blog, BlogFormData } from "../types/dataTypes";
 
-const BlogContainer:React.FC<BlogContainerProps> = ({ isUserBlogList, toggleProfileDetails }) => {
+const BlogContainer: React.FC<BlogContainerProps> = ({ isUserBlogList, toggleProfileDetails }) => {
     const [isCreateBlogActive, setIsCreateBlogActive] = useState<boolean>(false);
-    const [blogToEdit, setBlogToEdit] = useState<Blog|null>(null);
+    const [blogToEdit, setBlogToEdit] = useState<BlogFormData | null>(null);
     const [isEditOn, setIsEditOn] = useState(false);
 
     const blogs = useSelector((state: RootState) =>
@@ -21,8 +21,8 @@ const BlogContainer:React.FC<BlogContainerProps> = ({ isUserBlogList, toggleProf
         setIsCreateBlogActive(!isCreateBlogActive);
         isUserBlogList && toggleProfileDetails?.();
     };
-    const toggleEditBlog = (blog:Blog) => {
-        setBlogToEdit(blog);
+    const toggleEditBlog = (blog: BlogFormData) => {
+        blog && setBlogToEdit(blog);
         setIsEditOn(!isEditOn);
     };
 
