@@ -17,7 +17,7 @@ export interface UserState {
 }
 
 export interface Blog {
-    User?: { username: string };
+    User: { username: string };
     id: string;
     title: string;
     userId: string;
@@ -29,4 +29,8 @@ export interface Blog {
 export interface BlogFormData {
     title: string;
     blogContent: string;
+}
+
+export interface PaginateSelecteTypes {
+    selected: number;
 }

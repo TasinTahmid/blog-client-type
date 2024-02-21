@@ -7,14 +7,15 @@ import { setLogout } from "../states/authSlice";
 import { useUpdatePasswordMutation } from "../apis/userApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RootState } from "../states/store";
 
-const PasswordUpdateForm = () => {
+const PasswordUpdateForm: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [updatePassword] = useUpdatePasswordMutation();
 
-    const { user, token } = useSelector((state) => state.auth);
+    const { user, token } = useSelector((state: RootState) => state.auth);
 
     const { register, handleSubmit, formState } = useForm({
         resolver: yupResolver(passwordUpdateSchema),
@@ -80,9 +81,7 @@ const PasswordUpdateForm = () => {
                                 {...register("oldPassword")}
                                 className="mb-6 block w-1/2 rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-300 sm:text-sm sm:leading-6"
                             />
-                            <p className="text-red-600">
-                                {errors.oldPassword?.message}
-                            </p>
+                            <p className="text-red-600">{errors.oldPassword?.message}</p>
                         </div>
                         <label
                             htmlFor="newPassword"
@@ -98,9 +97,7 @@ const PasswordUpdateForm = () => {
                                 {...register("newPassword")}
                                 className="mb-6 block w-1/2 rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-300 sm:text-sm sm:leading-6"
                             />
-                            <p className="text-red-600">
-                                {errors.newPassword?.message}
-                            </p>
+                            <p className="text-red-600">{errors.newPassword?.message}</p>
                         </div>
                         <label
                             htmlFor="confirmNewPassword"
@@ -116,9 +113,7 @@ const PasswordUpdateForm = () => {
                                 {...register("confirmNewPassword")}
                                 className="block w-1/2 rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-300 sm:text-sm sm:leading-6"
                             />
-                            <p className="text-red-600">
-                                {errors.confirmNewPassword?.message}
-                            </p>
+                            <p className="text-red-600">{errors.confirmNewPassword?.message}</p>
                         </div>
                     </div>
                 </div>

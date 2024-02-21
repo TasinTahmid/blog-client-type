@@ -21,3 +21,11 @@ export interface BlogFormProps {
     isUserBlogList: boolean | undefined;
     singleBlog?: boolean;
 }
+
+export interface PaginationProps {
+    isUserBlogList?: boolean;
+}
+
+export interface CreateBlogInputButtonProps {
+    handleClick: () => void;
+}

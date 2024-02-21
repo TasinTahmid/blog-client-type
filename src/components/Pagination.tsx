@@ -1,24 +1,26 @@
-/* eslint-disable react/prop-types */
 import ReactPaginate from "react-paginate";
 import { useSelector, useDispatch } from "react-redux";
 import { setPageNumberForAllBlogs, setPageNumberForUserBlogs } from "../states/blogSlice";
 import NoBlogsYet from "./NoBlogsYet";
+import { RootState } from "../states/store";
+import { PaginateSelecteTypes } from "../types/dataTypes";
+import { PaginationProps } from "../types/componentTypes";
 // import { useGetAllBlogsQuery, useGetUserBlogsQuery } from "../api/blogApi";
 
-const Pagination = ({ isUserBlogList }) => {
+const Pagination: React.FC<PaginationProps> = ({ isUserBlogList }) => {
     const dispatch = useDispatch();
 
-    const pageNumber = useSelector((state) =>
+    const pageNumber = useSelector((state: RootState) =>
         isUserBlogList ? state.blog.pageNumberForUserBlogs : state.blog.pageNumberForAllBlogs
     );
-    const blogCount = useSelector((state) =>
+    const blogCount = useSelector((state: RootState) =>
         isUserBlogList ? state.blog.userBlogCount : state.blog.allBlogCount
     );
     const setPageNumber = isUserBlogList ? setPageNumberForUserBlogs : setPageNumberForAllBlogs;
 
     const pageCount = Math.ceil(blogCount / 4);
 
-    const handlePageChange = ({ selected }) => {
+    const handlePageChange = ({ selected }: PaginateSelecteTypes) => {
         dispatch(setPageNumber(selected + 1));
     };
 

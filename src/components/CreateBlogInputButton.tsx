@@ -1,9 +1,11 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { CreateBlogInputButtonProps } from "../types/componentTypes";
+import { RootState } from "../states/store";
 
-const CreateBlogInputButton = ({ handleClick }) => {
+const CreateBlogInputButton: React.FC<CreateBlogInputButtonProps> = ({ handleClick }) => {
     const navigate = useNavigate();
-    const user = useSelector((state) => state.auth.user);
+    const user = useSelector((state: RootState) => state.auth.user);
 
     const showCreateBlogForm = () => {
         if (!user) {

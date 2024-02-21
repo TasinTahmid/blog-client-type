@@ -15,7 +15,7 @@ const Profile = () => {
     const [pageSize] = useState(4);
 
     const pageNumber = useSelector((state: RootState) => state.blog.pageNumberForUserBlogs);
-    const user = useSelector((state:RootState) => state.auth.user);
+    const user = useSelector((state: RootState) => state.auth.user);
 
     const { data, error, isLoading } = useGetUserBlogsQuery({
         id: user?.id,
