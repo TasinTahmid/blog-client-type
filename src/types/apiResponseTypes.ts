@@ -4,7 +4,6 @@ export interface ApiResponse {
 }
 
 export interface ApiError {
-    data: {message: string};
-    status: number; 
+    data: { message: string };
+    status: number;
 }
-

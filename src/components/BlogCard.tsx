@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
 import { useSelector, useDispatch } from "react-redux";
 import { deleteBlogById, decreaseBlogCount } from "../states/blogSlice";
 import { useNavigate } from "react-router-dom";
 import { useDeleteBlogMutation } from "../apis/blogApi";
+import { BlogCardProps } from "../types/componentTypes";
+import { RootState } from "../states/store";
 
-const BlogCard = ({
+const BlogCard: React.FC<BlogCardProps>= ({
     blog,
     toggleEditBlog,
     toggleProfileDetails,
@@ -13,7 +14,7 @@ const BlogCard = ({
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { user, token } = useSelector((state) => state.auth);
+    const { user, token } = useSelector((state:RootState) => state.auth);
     const [deleteBlog, data] = useDeleteBlogMutation();
 
     const time = blog.createdAt.split("T")[0];
@@ -30,13 +31,13 @@ const BlogCard = ({
     };
 
     const handleReadMore = () => {
-        isUserBlogList && toggleProfileDetails();
+        isUserBlogList && toggleProfileDetails?.();
         navigate(`/blogs/${blog.id}`, { state: { isUserBlogList } });
     };
 
     const handleEdit = () => {
         toggleEditBlog(blog);
-        isUserBlogList && toggleProfileDetails();
+        isUserBlogList && toggleProfileDetails?.();
     };
     return (
         <div className="bg-white rounded-sm shadow-xl deleteBlogById w-full py-10 px-14">
@@ -44,7 +45,7 @@ const BlogCard = ({
             <div className="flex justify-between items-baseline">
                 <div>
                     <h2 className="font-semibold text-xl  ">
-                        {blog.User?.username}
+                        {blog.User.username}
                     </h2>
                     <p className="my-6">{time}</p>
                 </div>

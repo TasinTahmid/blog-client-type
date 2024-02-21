@@ -6,15 +6,16 @@ import ProfileDetails from "../components/ProfileDetails";
 import PasswordUpdateForm from "../components/PasswordUpdateForm";
 import { setUserBlogs, setUserBlogCount } from "../states/blogSlice";
 import { useGetUserBlogsQuery } from "../apis/blogApi";
+import { RootState } from "../states/store";
 
 const Profile = () => {
     const dispatch = useDispatch();
     const [profileSettings, setProfileSettings] = useState(false);
     const [showProfileDetails, setShowProfileDetails] = useState(true);
-    const [pageSize, setPageSize] = useState(4);
+    const [pageSize] = useState(4);
 
-    const pageNumber = useSelector((state) => state.blog.pageNumberForUserBlogs);
-    const user = useSelector((state) => state.auth.user);
+    const pageNumber = useSelector((state: RootState) => state.blog.pageNumberForUserBlogs);
+    const user = useSelector((state:RootState) => state.auth.user);
 
     const { data, error, isLoading } = useGetUserBlogsQuery({
         id: user?.id,

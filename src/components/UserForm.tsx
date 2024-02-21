@@ -9,9 +9,9 @@ import {
 } from "../apis/userApi.ts";
 import { useAppSelector, useAppDispatch } from "../states/hooks.ts";
 import { PageTypeState } from "../states/pageTypeSlice";
-import { FormData } from "../types/types.ts";
+import { UserFormData } from "../types/dataTypes.ts";
 import { RootState } from "../states/store.ts";
-import { ApiResponse, ApiError } from "../types/errorTypes.ts";
+import { ApiResponse, ApiError } from "../types/apiResponseTypes.ts";
 import { setLogin } from "../states/authSlice.ts";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,7 +26,7 @@ const UserForm = () => {
         (state: RootState) => state.pageType
     ) as PageTypeState;
 
-    const { register, handleSubmit, formState } = useForm<FormData>({
+    const { register, handleSubmit, formState } = useForm<UserFormData>({
         resolver: yupResolver(
             pageType.value == "register" ? registerSchema : loginSchema
         ),
@@ -34,7 +34,7 @@ const UserForm = () => {
 
     const { errors } = formState;
 
-    const handleRegister = async (data: FormData) => {
+    const handleRegister = async (data: UserFormData) => {
         try {
             const response: ApiResponse = await createUser({
                 body: data,
@@ -60,7 +60,7 @@ const UserForm = () => {
         }
     };
 
-    const handleLogin = async (data: FormData) => {
+    const handleLogin = async (data: UserFormData) => {
         try {
             const response = await loginUser({ body: data }).unwrap();
             console.log("response login", response);
@@ -83,7 +83,7 @@ const UserForm = () => {
         }
     };
 
-    const onSubmit = (data: FormData) => {
+    const onSubmit = (data: UserFormData) => {
         if (pageType.value == "register") return handleRegister(data);
         return handleLogin(data);
     };
