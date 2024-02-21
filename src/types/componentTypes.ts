@@ -29,3 +29,6 @@ export interface PaginationProps {
 export interface CreateBlogInputButtonProps {
     handleClick: () => void;
 }
+export interface PopupConfirmationProps {
+    togglePopup: () => void;
+}

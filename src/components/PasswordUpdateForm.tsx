@@ -8,6 +8,8 @@ import { useUpdatePasswordMutation } from "../apis/userApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RootState } from "../states/store";
+import { PasswordUpdateData } from "../types/dataTypes";
+import { ApiError } from "../types/apiResponseTypes";
 
 const PasswordUpdateForm: React.FC = () => {
     const dispatch = useDispatch();
@@ -21,15 +23,11 @@ const PasswordUpdateForm: React.FC = () => {
         resolver: yupResolver(passwordUpdateSchema),
     });
 
-    console.log("handle submit", handleSubmit);
-
     const { errors } = formState;
 
-    const onSubmit = async (body) => {
-        console.log("in onsubmit....");
-        const response = await updatePassword({ id: user.id, body, token });
-
-        if (response.data) {
+    const onSubmit = async (body: PasswordUpdateData) => {
+        try {
+            await updatePassword({ id: user?.id, body, token }).unwrap();
             toast.success("Password updated successfully.", {
                 position: "bottom-right",
                 autoClose: 700,
@@ -39,9 +37,9 @@ const PasswordUpdateForm: React.FC = () => {
                 navigate("/");
                 dispatch(setLogout());
             }, 1200);
-        }
-        if (response.error) {
-            toast.error(response.error.data.message, {
+        } catch (error) {
+            const blogCreateError = error as ApiError;
+            toast.error(blogCreateError.data.message, {
                 position: "bottom-right",
                 autoClose: 1500,
             });

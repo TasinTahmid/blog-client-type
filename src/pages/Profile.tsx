@@ -3,14 +3,12 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import DotLoader from "react-spinners/DotLoader";
 import ProfileDetails from "../components/ProfileDetails";
-import PasswordUpdateForm from "../components/PasswordUpdateForm";
 import { setUserBlogs, setUserBlogCount } from "../states/blogSlice";
 import { useGetUserBlogsQuery } from "../apis/blogApi";
 import { RootState } from "../states/store";
 
 const Profile = () => {
     const dispatch = useDispatch();
-    const [profileSettings, setProfileSettings] = useState(false);
     const [showProfileDetails, setShowProfileDetails] = useState(true);
     const [pageSize] = useState(4);
 
@@ -35,43 +33,31 @@ const Profile = () => {
         }
     }, [data, pageNumber, isLoading, dispatch]);
 
-    const toggleProfileSettings = () => {
-        setProfileSettings(!profileSettings);
-    };
-
     const toggleProfileDetails = () => {
         setShowProfileDetails(!showProfileDetails);
     };
     return (
         <div className="pl-8 bg-gray-50 h-5/6  grid grid-cols-10 gap-10 overflow-auto ">
-            {profileSettings ? (
-                <PasswordUpdateForm toggleProfileSettings={toggleProfileSettings} />
-            ) : (
-                <>
-                    {showProfileDetails && (
-                        <ProfileDetails toggleProfileSettings={toggleProfileSettings} />
-                    )}
+            {showProfileDetails && <ProfileDetails />}
+            <div
+                className={`col-span-7 h-full ${
+                    !showProfileDetails ? "w-screen" : "w-full"
+                } overflow-auto `}
+            >
+                {loading ? (
                     <div
-                        className={`col-span-7 h-full ${
-                            !showProfileDetails ? "w-screen" : "w-full"
-                        } overflow-auto `}
-                    >
-                        {loading ? (
-                            <div
-                                className="bg-gray-50 relative size-full py-10 px-auto  
+                        className="bg-gray-50 relative size-full py-10 px-auto  
                 flex justify-center items-center"
-                            >
-                                <DotLoader color="#bcaeae" size={80} />
-                            </div>
-                        ) : (
-                            <BlogContainer
-                                isUserBlogList={true}
-                                toggleProfileDetails={toggleProfileDetails}
-                            />
-                        )}
+                    >
+                        <DotLoader color="#bcaeae" size={80} />
                     </div>
-                </>
-            )}
+                ) : (
+                    <BlogContainer
+                        isUserBlogList={true}
+                        toggleProfileDetails={toggleProfileDetails}
+                    />
+                )}
+            </div>
         </div>
     );
 };

@@ -34,3 +34,9 @@ export interface BlogFormData {
 export interface PaginateSelecteTypes {
     selected: number;
 }
+
+export interface PasswordUpdateData {
+    oldPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
+}
