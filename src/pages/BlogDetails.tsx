@@ -8,7 +8,7 @@ const BlogDetails = () => {
     const { state } = useLocation();
     const { id } = useParams();
 
-    const { data, error, isLoading } = useGetBlogByIdQuery(id);
+    const { data } = useGetBlogByIdQuery(id);
 
     const [blog, setBlog] = useState(null);
 

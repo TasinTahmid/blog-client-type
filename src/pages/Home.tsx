@@ -11,7 +11,7 @@ const Home = () => {
     const [pageSize] = useState(4);
     const pageNumber = useSelector((state: RootState) => state.blog.pageNumberForAllBlogs);
 
-    const { data, error, isLoading } = useGetAllBlogsQuery({
+    const { data, isLoading } = useGetAllBlogsQuery({
         pageNumber,
         pageSize,
     });
