@@ -1,9 +1,10 @@
-/* eslint-disable react/prop-types */
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../states/store";
+import React from "react";
 
-const ProfileDetails = ({ toggleProfileSettings }) => {
-    const user = useSelector((state) => state.auth.user);
+const ProfileDetails: React.FC = () => {
+    const user = useSelector((state: RootState) => state.auth.user);
     const navigate = useNavigate();
 
     return (
@@ -42,8 +43,8 @@ const ProfileDetails = ({ toggleProfileSettings }) => {
                     />
                 </svg>
             </div>
-            <p className=" pt-6">{user.username}</p>
-            <div className="border-b py-6">{user.email}</div>
+            <p className=" pt-6">{user?.username}</p>
+            <div className="border-b py-6">{user?.email}</div>
         </div>
     );
 };

@@ -4,18 +4,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { setBlogs, setAllBlogCount } from "../states/blogSlice";
 import DotLoader from "react-spinners/DotLoader";
 import { useGetAllBlogsQuery } from "../apis/blogApi";
+import { RootState } from "../states/store";
 
 const Home = () => {
     const dispatch = useDispatch();
-    const [pageSize, setPageSize] = useState(4);
-    const pageNumber = useSelector((state) => state.blog.pageNumberForAllBlogs);
+    const [pageSize] = useState(4);
+    const pageNumber = useSelector((state: RootState) => state.blog.pageNumberForAllBlogs);
 
-    const { data, error, isLoading } = useGetAllBlogsQuery({
+    const { data, isLoading } = useGetAllBlogsQuery({
         pageNumber,
         pageSize,
     });
 
-    const [loading, setLoading] = useState(isLoading);
+    const [loading, setLoading] = useState<boolean>(isLoading);
 
     useEffect(() => {
         if (data) {

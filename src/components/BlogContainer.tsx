@@ -4,22 +4,25 @@ import BlogCard from "./BlogCard";
 import CreateBlogInputButton from "./CreateBlogInputButton";
 import BlogForm from "./BlogForm";
 import Paginate from "./Pagination";
+import { BlogContainerProps } from "../types/componentTypes";
+import { RootState } from "../states/store";
+import { Blog, BlogFormData } from "../types/dataTypes";
 
-const BlogContainer = ({ isUserBlogList, toggleProfileDetails }) => {
-    const [isCreateBlogActive, setIsCreateBlogActive] = useState(false);
-    const [blogToEdit, setBlogToEdit] = useState(null);
+const BlogContainer: React.FC<BlogContainerProps> = ({ isUserBlogList, toggleProfileDetails }) => {
+    const [isCreateBlogActive, setIsCreateBlogActive] = useState<boolean>(false);
+    const [blogToEdit, setBlogToEdit] = useState<BlogFormData | null>(null);
     const [isEditOn, setIsEditOn] = useState(false);
 
-    const blogs = useSelector((state) =>
+    const blogs = useSelector((state: RootState) =>
         isUserBlogList ? state.blog.userBlogList : state.blog.blogList
     );
 
     const handleClick = () => {
         setIsCreateBlogActive(!isCreateBlogActive);
-        isUserBlogList && toggleProfileDetails();
+        isUserBlogList && toggleProfileDetails?.();
     };
-    const toggleEditBlog = (blog) => {
-        setBlogToEdit(blog);
+    const toggleEditBlog = (blog: BlogFormData) => {
+        blog && setBlogToEdit(blog);
         setIsEditOn(!isEditOn);
     };
 
@@ -49,7 +52,7 @@ const BlogContainer = ({ isUserBlogList, toggleProfileDetails }) => {
                         } grid xl:grid-cols-2 grid-cols-1 gap-y-12 gap-x-14 justify-items-center`}
                     >
                         <CreateBlogInputButton handleClick={handleClick} />
-                        {blogs.map((blog) => {
+                        {blogs.map((blog: Blog) => {
                             return (
                                 <BlogCard
                                     blog={blog}

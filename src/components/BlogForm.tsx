@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useCreateBlogMutation, useUpdateBlogMutation } from "../apis/blogApi";
@@ -6,8 +5,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import blogSchema from "../schemas/blog.schema";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RootState } from "../states/store";
+import { BlogFormProps } from "../types/componentTypes";
+import { Blog, BlogFormData } from "../types/dataTypes";
+import { ApiError } from "../types/apiResponseTypes";
 
-const BlogForm = ({
+const BlogForm: React.FC<BlogFormProps> = ({
     isCreateBlog,
     blog,
     handleClick,
@@ -19,12 +22,12 @@ const BlogForm = ({
     const [createBlog] = useCreateBlogMutation();
     const [updateBlog] = useUpdateBlogMutation();
 
-    const { token } = useSelector((state) => state.auth);
+    const { token } = useSelector((state: RootState) => state.auth);
 
     const title = blog?.title || "";
     const blogContent = blog?.blogContent || "";
 
-    const { register, handleSubmit, control, formState } = useForm({
+    const { register, handleSubmit, formState } = useForm({
         defaultValues: {
             title,
             blogContent,
@@ -34,62 +37,71 @@ const BlogForm = ({
 
     const { errors } = formState;
 
-    const handleCreate = async (body) => {
-        const response = await createBlog({ body, token });
-        if (response.data) {
+    const handleCreate = async (body: BlogFormData) => {
+        try {
+            await createBlog({ body, token }).unwrap();
             toast.success("Blog created successfully.", {
                 position: "bottom-right",
                 autoClose: 700,
             });
 
             setTimeout(() => {
-                handleClick();
+                handleClick?.();
             }, 1200);
-        }
-        if (response.error) {
-            toast.error(response.error.data.message, {
+        } catch (error) {
+            const blogCreateError = error as ApiError;
+            toast.error(blogCreateError.data.message, {
                 position: "bottom-right",
                 autoClose: 1500,
             });
         }
     };
 
-    const handleUpdate = async (body) => {
-        const response = await updateBlog({ id: blog.id, body, token });
-        if (response.data) {
+    const handleUpdate = async (body: BlogFormData) => {
+        try {
+            const response: Blog = await updateBlog({ id: blog?.id, body, token }).unwrap();
+            console.log("update response,", response);
             toast.success("Blog updated successfully.", {
                 position: "bottom-right",
                 autoClose: 700,
             });
 
             setTimeout(() => {
-                toggleEditBlog(response.data.title, response.data.blogContent);
+                const blogToEdit: BlogFormData = {
+                    title: response.title,
+                    blogContent: response.blogContent,
+                };
+                toggleEditBlog?.(blogToEdit);
             }, 1200);
-        }
-        if (response.error) {
-            toast.error(response.error.data.message, {
+        } catch (error) {
+            const blogCreateError = error as ApiError;
+            toast.error(blogCreateError.data.message, {
                 position: "bottom-right",
                 autoClose: 1500,
             });
         }
     };
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data: BlogFormData) => {
         if (isCreateBlog) return await handleCreate(data);
         return await handleUpdate(data);
     };
 
     const handleCancel = () => {
         if (!singleBlog && isUserBlogList) {
-            toggleProfileDetails();
+            toggleProfileDetails?.();
         }
 
         if (isCreateBlog) {
-            handleClick();
+            handleClick?.();
             return;
         }
 
-        toggleEditBlog(title, blogContent);
+        const blogToEdit: BlogFormData = {
+            title,
+            blogContent,
+        };
+        toggleEditBlog?.(blogToEdit);
         return;
     };
     return (
@@ -131,7 +143,6 @@ const BlogForm = ({
                         </label>
                         <div className="mt-2">
                             <textarea
-                                type="text-area"
                                 id="blogContent"
                                 {...register("blogContent")}
                                 className={` ${
@@ -139,9 +150,7 @@ const BlogForm = ({
                                 } block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-300 sm:text-sm sm:leading-6`}
                             />
                         </div>
-                        <p className="text-red-600">
-                            {errors.blogContent?.message}
-                        </p>
+                        <p className="text-red-600">{errors.blogContent?.message}</p>
                     </div>
                 </div>
 
