@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/__Test__/pages/ProfileSettings.test.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
